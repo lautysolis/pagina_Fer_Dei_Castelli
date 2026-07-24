@@ -1,7 +1,6 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
 
 dotenv.config();
@@ -27,22 +26,50 @@ const contactLimiter = rateLimit({
   message: { error: "Demasiados intentos. Probá de nuevo más tarde." },
 });
 
-// --- Mail transport ---
-// Configurar por variables de entorno (ver .env.example).
-// Funciona con cualquier proveedor SMTP: Gmail (con contraseña de aplicación),
-// Zoho, SendGrid, Outlook/Office365, etc.
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT) || 587,
-  secure: process.env.SMTP_SECURE === "true", // true para puerto 465
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
-
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// --- Envío de mail vía API HTTP de Brevo (antes Sendinblue) ---
+// Usamos una API por HTTPS en vez de una conexión SMTP directa porque
+// Render (plan gratuito) bloquea/restringe las conexiones SMTP salientes.
+// La API de Brevo funciona por HTTPS normal, así que no tiene ese problema.
+async function sendContactEmail({ nombre, email, telefono, mensaje }) {
+  const safe = (v) => String(v ?? "").replace(/[<>]/g, "");
+
+  const res = await fetch("https://api.brevo.com/v3/smtp/email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      "api-key": process.env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: {
+        name: "Web Fernanda Dei Castelli",
+        email: process.env.BREVO_SENDER_EMAIL, // dirección verificada en Brevo
+      },
+      to: [{ email: DEST_EMAIL }],
+      replyTo: { email },
+      subject: `Nueva consulta desde la web — ${safe(nombre)}`,
+      textContent: `Nombre: ${safe(nombre)}\nEmail: ${safe(email)}\nTeléfono: ${safe(telefono) || "-"}\n\nMensaje:\n${safe(mensaje)}`,
+      htmlContent: `
+        <div style="font-family: sans-serif; font-size: 15px; color: #1F3D2B;">
+          <h2 style="margin-bottom: 4px;">Nueva consulta desde la web</h2>
+          <p><strong>Nombre:</strong> ${safe(nombre)}</p>
+          <p><strong>Email:</strong> ${safe(email)}</p>
+          <p><strong>Teléfono:</strong> ${safe(telefono) || "-"}</p>
+          <p><strong>Mensaje:</strong></p>
+          <p style="white-space: pre-wrap;">${safe(mensaje)}</p>
+        </div>
+      `,
+    }),
+  });
+
+  if (!res.ok) {
+    const detail = await res.text().catch(() => "");
+    throw new Error(`Brevo respondió ${res.status}: ${detail}`);
+  }
 }
 
 app.get("/api/health", (_req, res) => res.json({ ok: true }));
@@ -61,25 +88,7 @@ app.post("/api/contact", contactLimiter, async (req, res) => {
       return res.status(400).json({ error: "El mensaje es demasiado largo." });
     }
 
-    const safe = (v) => String(v ?? "").replace(/[<>]/g, "");
-
-    await transporter.sendMail({
-      from: `"Web Fernanda De Icastelli" <${process.env.SMTP_USER}>`,
-      to: DEST_EMAIL,
-      replyTo: email,
-      subject: `Nueva consulta desde la web — ${safe(nombre)}`,
-      text: `Nombre: ${safe(nombre)}\nEmail: ${safe(email)}\nTeléfono: ${safe(telefono) || "-"}\n\nMensaje:\n${safe(mensaje)}`,
-      html: `
-        <div style="font-family: sans-serif; font-size: 15px; color: #1F3D2B;">
-          <h2 style="margin-bottom: 4px;">Nueva consulta desde la web</h2>
-          <p><strong>Nombre:</strong> ${safe(nombre)}</p>
-          <p><strong>Email:</strong> ${safe(email)}</p>
-          <p><strong>Teléfono:</strong> ${safe(telefono) || "-"}</p>
-          <p><strong>Mensaje:</strong></p>
-          <p style="white-space: pre-wrap;">${safe(mensaje)}</p>
-        </div>
-      `,
-    });
+    await sendContactEmail({ nombre, email, telefono, mensaje });
 
     return res.json({ ok: true });
   } catch (err) {
