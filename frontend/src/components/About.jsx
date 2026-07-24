@@ -5,7 +5,7 @@ export default function About() {
     <section id="sobre-mi" style={{ background: "var(--sage)", borderTop: "1px solid var(--sage-line)", borderBottom: "1px solid var(--sage-line)" }}>
       <div className="container about-grid" style={{ display: "grid", gridTemplateColumns: "0.8fr 1.2fr", gap: 64, alignItems: "center" }}>
         <div style={{ borderRadius: 6, overflow: "hidden", boxShadow: "0 20px 50px rgba(31,61,43,0.16)" }}>
-          <img src={fernanda} alt="Lic. Fernanda De Icastelli sonriendo en su consultorio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+          <img src={fernanda} alt="Lic. Fernanda Dei Castelli sonriendo en su consultorio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
         </div>
         <div>
           <span className="eyebrow">Sobre mí</span>

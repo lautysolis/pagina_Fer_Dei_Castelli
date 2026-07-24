@@ -48,7 +48,7 @@ export default function Contact() {
                 <a href="https://www.instagram.com/nutri.fernandadeicastelli/" target="_blank" rel="noopener noreferrer">@nutri.fernandadeicastelli</a>
               </InfoRow>
               <InfoRow icon={FacebookIcon} label="Facebook">
-                <a href="https://www.facebook.com/licfernandadeicastelli/" target="_blank" rel="noopener noreferrer">Lic. Fernanda De Icastelli</a>
+                <a href="https://www.facebook.com/licfernandadeicastelli/" target="_blank" rel="noopener noreferrer">Lic. Fernanda Dei Castelli</a>
               </InfoRow>
             </div>
 

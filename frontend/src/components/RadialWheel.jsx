@@ -37,7 +37,7 @@ export default function RadialWheel({ size = 420, labels = [], className = "" })
       {points.map(([x, y], i) => (
         <circle key={i} cx={x} cy={y} r="4.5" fill={i % 2 === 0 ? "var(--bg-card)" : "var(--ink)"} />
       ))}
-      <text x={cx} y={cy - 6} textAnchor="middle" fontFamily="var(--display)" fontSize="22" fill="var(--ink)">equilibrio</text>
+      <text x={cx} y={cy - 6} textAnchor="middle" fontFamily="var(--display)" fontSize="22" fill="var(--ink)">Equilibrio</text>
       <text x={cx} y={cy + 16} textAnchor="middle" fontFamily="var(--mono)" fontSize="10" letterSpacing="1.5" fill="var(--gold)">NUTRICIÓN · CUERPO</text>
     </svg>
   );

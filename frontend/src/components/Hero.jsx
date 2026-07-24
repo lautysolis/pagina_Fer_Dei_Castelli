@@ -22,7 +22,7 @@ export default function Hero() {
 
           <div style={{ display: "flex", gap: 40, marginTop: 56, flexWrap: "wrap" }}>
             <div>
-              <div style={{ fontFamily: "var(--display)", fontSize: 36, color: "var(--clay)" }}>20+</div>
+              <div style={{ fontFamily: "var(--display)", fontSize: 36, color: "var(--clay)" }}>+20</div>
               <div style={{ fontSize: 13, color: "var(--ink-soft)" }}>años de trayectoria</div>
             </div>
             <div>
@@ -53,7 +53,7 @@ export default function Hero() {
                 boxShadow: "0 18px 40px rgba(31,61,43,0.22)",
               }}
             >
-              <img src={fernanda} alt="Lic. Fernanda De Icastelli en su consultorio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              <img src={fernanda} alt="Lic. Fernanda Dei Castelli en su consultorio" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
             </div>
           </div>
         </div>
