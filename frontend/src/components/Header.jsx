@@ -35,7 +35,7 @@ export default function Header() {
         <a href="#top" style={{ display: "flex", flexDirection: "column", lineHeight: 1 }}>
           <span style={{ fontFamily: "var(--display)", fontSize: 24, fontStyle: "italic" }}>Fernanda Dei Castelli</span>
           <span style={{ fontFamily: "var(--mono)", fontSize: 10, letterSpacing: "0.14em", color: "var(--ink-soft)", textTransform: "uppercase", marginTop: 4 }}>
-            Lic. en Nutrición · MP 20 años
+            Lic. en Nutrición · MP 007
           </span>
         </a>
 
