@@ -1,4 +1,4 @@
-# Sitio web — Lic. Fernanda De Icastelli (Nutricionista, Posadas)
+# Sitio web — Lic. Fernanda Dei Castelli (Nutricionista, Posadas)
 
 Sitio de una sola página con:
 - **Frontend**: React + Vite (`/frontend`)
