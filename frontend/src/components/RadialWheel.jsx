@@ -30,7 +30,13 @@ export default function RadialWheel({ size = 420, labels = [], className = "" })
   });
 
   return (
-    <svg viewBox="0 0 420 420" width={size} height={size} className={className} role="img" aria-label="Diagrama circular de servicios">
+    <svg
+      viewBox="0 0 420 420"
+      className={className}
+      role="img"
+      aria-label="Diagrama circular de servicios"
+      style={{ width: "100%", maxWidth: size, height: "auto", display: "block" }}
+    >
       <circle cx={cx} cy={cy} r={rOuter + 8} fill="none" stroke="var(--line)" strokeWidth="1" />
       {arcs}
       <circle cx={cx} cy={cy} r={rInner - 2} fill="var(--bg-card)" stroke="var(--line)" strokeWidth="1" />
