@@ -18,7 +18,7 @@ const GROUPS = [
 
 export default function Publico() {
   return (
-    <section style={{ background: "var(--sage)", borderTop: "1px solid var(--sage-line)", borderBottom: "1px solid var(--sage-line)" }}>
+    <section id="publico" style={{ background: "var(--sage)", borderTop: "1px solid var(--sage-line)", borderBottom: "1px solid var(--sage-line)" }}>
       <div className="container">
         <span className="eyebrow">A quién atiendo</span>
         <h2 style={{ fontSize: "clamp(28px, 3.6vw, 40px)", marginTop: 18, maxWidth: 600 }}>
