@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://fernanda-dei-castelli.netlify.app/sitemap.xml
+Sitemap: https://fernanda-dei-castelli.com.ar/sitemap.xml
